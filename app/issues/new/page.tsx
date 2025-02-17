@@ -1,5 +1,4 @@
 "use client";
-
 import ErrorMessage from "@/app/components/ErrorMessage";
 import { createIssueSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,8 +9,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { MdErrorOutline } from "react-icons/md";
-import SimpleMDE from "react-simplemde-editor";
 import { z } from "zod";
+import dynamic from "next/dynamic";
+
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false });
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
