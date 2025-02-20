@@ -45,7 +45,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     });
 
     return (
-        <div className="max-w-xl">
+        <div className="max-w-xl w-full">
             {error && (
                 <Callout.Root color="red" className="mb-5">
                     <Callout.Icon>
@@ -55,14 +55,15 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
                 </Callout.Root>
             )}
             <form className="space-y-5 w-full" onSubmit={onSubmit}>
-                <div className="flex items-center gap-3 w-full">
-                    <TextField.Root
-                        defaultValue={issue?.title}
-                        placeholder="Title"
-                        {...register("title")}
-                        className="w-full"
-                    />
-                    <div className="w-2/12">
+                <div className="flex gap-3 justify-between w-full">
+                    <div className="me-auto w-full">
+                        <TextField.Root
+                            defaultValue={issue?.title}
+                            placeholder="Title"
+                            {...register("title")}
+                        />
+                    </div>
+                    <div className="ms-auto">
                         <Controller
                             name="status"
                             control={control}
