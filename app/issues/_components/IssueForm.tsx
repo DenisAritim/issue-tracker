@@ -63,14 +63,16 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
                             {...register("title")}
                         />
                     </div>
-                    <div className="ms-auto">
-                        <Controller
-                            name="status"
-                            control={control}
-                            defaultValue={issue?.status}
-                            render={({ field }) => <StatusSelect {...field} />}
-                        />
-                    </div>
+                    {issue?.status && (
+                        <div className="ms-auto">
+                            <Controller
+                                name="status"
+                                control={control}
+                                defaultValue={issue?.status}
+                                render={({ field }) => <StatusSelect {...field} />}
+                            />
+                        </div>
+                    )}
                 </div>
 
                 <ErrorMessage>{errors.title?.message}</ErrorMessage>

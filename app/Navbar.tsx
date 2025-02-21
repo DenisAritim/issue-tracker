@@ -40,11 +40,11 @@ const Navbar = () => {
                         </ul>
                     </Flex>
                     <Flex align="center" gap="2">
-                        {status === "authenticated" && session.user && (
+                        {status === "authenticated" && (
                             <DropdownMenu.Root>
                                 <DropdownMenu.Trigger>
                                     <Avatar
-                                        src={session.user.image!}
+                                        src={session.user!.image!}
                                         fallback="?"
                                         size="2"
                                         radius="full"
@@ -53,7 +53,7 @@ const Navbar = () => {
                                 </DropdownMenu.Trigger>
                                 <DropdownMenu.Content>
                                     <DropdownMenu.Label>
-                                        {session.user.email}
+                                        {session.user!.email}
                                     </DropdownMenu.Label>
                                     <DropdownMenu.Item>
                                         <Link href="/api/auth/signout">Log out</Link>
