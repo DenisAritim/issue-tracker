@@ -17,7 +17,9 @@ const Navbar = () => {
                         </Link>
                         <NavLinks />
                     </Flex>
-                    <AuthStatus />
+                    <Flex align="center">
+                        <AuthStatus />
+                    </Flex>
                 </Flex>
             </Container>
         </nav>
