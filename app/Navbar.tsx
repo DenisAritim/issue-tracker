@@ -1,5 +1,5 @@
 "use client";
-import { Container, Flex, Spinner } from "@radix-ui/themes";
+import { Avatar, Container, DropdownMenu, Flex, Spinner } from "@radix-ui/themes";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -40,9 +40,26 @@ const Navbar = () => {
                         </ul>
                     </Flex>
                     <Flex align="center" gap="2">
-                        {session && <span>{session.user?.name}</span>}
-                        {status === "authenticated" && (
-                            <Link href="/api/auth/signout">Logout</Link>
+                        {status === "authenticated" && session.user && (
+                            <DropdownMenu.Root>
+                                <DropdownMenu.Trigger>
+                                    <Avatar
+                                        src={session.user.image!}
+                                        fallback="?"
+                                        size="2"
+                                        radius="full"
+                                        className="cursor-pointer"
+                                    />
+                                </DropdownMenu.Trigger>
+                                <DropdownMenu.Content>
+                                    <DropdownMenu.Label>
+                                        {session.user.email}
+                                    </DropdownMenu.Label>
+                                    <DropdownMenu.Item>
+                                        <Link href="/api/auth/signout">Log out</Link>
+                                    </DropdownMenu.Item>
+                                </DropdownMenu.Content>
+                            </DropdownMenu.Root>
                         )}
                         {status === "unauthenticated" && (
                             <Link href="/api/auth/signin">Login</Link>
