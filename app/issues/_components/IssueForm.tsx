@@ -9,10 +9,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { MdErrorOutline } from "react-icons/md";
-import SimpleMDE from "react-simplemde-editor";
 import { z } from "zod";
 import StatusSelect from "./StatusSelect";
+import dynamic from "next/dynamic";
 
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false });
 type IssueFormData = z.infer<typeof issueSchema>;
 
 const IssueForm = ({ issue }: { issue?: Issue }) => {
@@ -63,13 +64,15 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
                             {...register("title")}
                         />
                     </div>
-                    {issue?.status && (
+                    {issue && (
                         <div className="ms-auto">
                             <Controller
                                 name="status"
                                 control={control}
-                                defaultValue={issue?.status}
-                                render={({ field }) => <StatusSelect {...field} />}
+                                defaultValue={issue.status}
+                                render={({ field }) => (
+                                    <StatusSelect {...field} value={field.value!} />
+                                )}
                             />
                         </div>
                     )}
