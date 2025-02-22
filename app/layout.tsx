@@ -29,7 +29,7 @@ export default function RootLayout({
                 <QueryClientProvider>
                     <AuthProvider>
                         <Theme
-                            accentColor="green"
+                            accentColor="violet"
                             grayColor="mauve"
                             hasBackground={false}
                         >
