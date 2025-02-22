@@ -1,10 +1,11 @@
 "use client";
-import { User } from "@prisma/client";
+import { Issue, User } from "@prisma/client";
 import { Avatar, Button, Flex, Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { RxCircleBackslash, RxPerson } from "react-icons/rx";
 
-const AssigneeSelect = () => {
+const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     const {
         data: users,
         error,
@@ -21,11 +22,29 @@ const AssigneeSelect = () => {
     if (error) return null;
 
     return (
-        <Select.Root>
+        <Select.Root
+            defaultValue={issue.assignedToUserId || (null as unknown as string)}
+            onValueChange={(userId) => {
+                axios.patch("/api/issues/" + issue.id, {
+                    assignedToUserId: userId || null,
+                });
+            }}
+        >
             <Select.Trigger placeholder="Assign..." />
-            <Select.Content>
+            <Select.Content position="popper">
                 <Select.Group>
                     <Select.Label>Suggestions</Select.Label>
+                    <Select.Item value={null as unknown as string}>
+                        <Flex align="center" gapX="2">
+                            <Avatar
+                                size="1"
+                                radius="full"
+                                src=""
+                                fallback={<RxCircleBackslash color="red" />}
+                            ></Avatar>
+                            Unassigned
+                        </Flex>
+                    </Select.Item>
                     {users?.map((user) => (
                         <Select.Item key={user.id} value={user.id}>
                             <Flex align="center" gapX="2">
@@ -33,7 +52,7 @@ const AssigneeSelect = () => {
                                     size="1"
                                     radius="full"
                                     src={user!.image!}
-                                    fallback="?"
+                                    fallback={<RxPerson />}
                                     referrerPolicy="no-referrer"
                                 />
                                 {user.name}
