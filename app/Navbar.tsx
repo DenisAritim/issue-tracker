@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MdBugReport } from "react-icons/md";
 import classnames from "classnames";
+import { RxPerson } from "react-icons/rx";
 
 const Navbar = () => {
     return (
@@ -68,13 +69,16 @@ const AuthStatus = () => {
         <Box>
             <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
-                    <Avatar
-                        src={session!.user!.image!}
-                        fallback="?"
-                        size="2"
-                        radius="full"
-                        className="cursor-pointer"
-                    />
+                    <div className="flex items-center justify-center">
+                        <Avatar
+                            src={session!.user!.image!}
+                            fallback={<RxPerson />}
+                            size="2"
+                            radius="full"
+                            className="cursor-pointer"
+                            referrerPolicy="no-referrer"
+                        />
+                    </div>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
                     <DropdownMenu.Label>{session!.user!.email}</DropdownMenu.Label>
