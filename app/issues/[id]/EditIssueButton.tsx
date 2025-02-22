@@ -4,12 +4,12 @@ import { RxPencil2 } from "react-icons/rx";
 
 const EditIssueButton = ({ issueId }: { issueId: number }) => {
     return (
-        <Link href={`/issues/${issueId}/edit`}>
-            <Button>
+        <Button asChild>
+            <Link href={`/issues/${issueId}/edit`}>
                 <RxPencil2 />
                 Edit Issue
-            </Button>
-        </Link>
+            </Link>
+        </Button>
     );
 };
 
