@@ -1,5 +1,4 @@
 "use client";
-
 import { Issue, User } from "@prisma/client";
 import { Avatar, Button, Flex, Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
