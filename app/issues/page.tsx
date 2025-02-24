@@ -68,11 +68,12 @@ const IssuesPage = async ({ searchParams }: Props) => {
         if (validStatusQuery) query.append("status", validStatusQuery);
         query.append("orderBy", orderBy);
         query.append("orderDirection", orderDirection);
+        if (page) query.append("page", page);
         return query.toString();
     };
 
     return (
-        <div>
+        <Flex direction="column" gap="3">
             <IssueToolbar />
             <Table.Root variant="surface">
                 <Table.Header>
@@ -125,14 +126,14 @@ const IssuesPage = async ({ searchParams }: Props) => {
                     ))}
                 </Table.Body>
             </Table.Root>
-            <Flex justify="center" mt="3">
+            <Flex justify="center">
                 <Pagination
                     pageSize={pageSize}
                     itemCount={issueCount}
                     currentPage={validPage}
                 />
             </Flex>
-        </div>
+        </Flex>
     );
 };
 
