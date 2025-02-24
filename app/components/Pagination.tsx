@@ -46,7 +46,7 @@ const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
             >
                 <RxChevronLeft />
             </Button>
-            <Text>
+            <Text size="1">
                 Page {currentPage} of {pageCount}
             </Text>
             <Button

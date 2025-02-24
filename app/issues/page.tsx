@@ -1,23 +1,23 @@
 import { prisma } from "@/lib/prisma";
-import { Table } from "@radix-ui/themes";
-import { IssueStatusBadge, Link } from "../components";
-import IssueToolbar from "./IssueToolbar";
 import { Issue, Status } from "@prisma/client";
+import { Flex, Table } from "@radix-ui/themes";
 import NextLink from "next/link";
 import { RxArrowDown, RxArrowUp } from "react-icons/rx";
+import { IssueStatusBadge, Link } from "../components";
+import Pagination from "../components/Pagination";
+import IssueToolbar from "./IssueToolbar";
 
 interface Props {
     searchParams: Promise<{
         status: Status;
         orderBy: keyof Issue;
         orderDirection: "asc" | "desc";
+        page: string;
     }>;
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
-    const status = (await searchParams).status;
-    const orderBy = (await searchParams).orderBy;
-    const orderDirection = (await searchParams).orderDirection;
+    const { status, orderBy, orderDirection, page } = await searchParams;
 
     const columns: { label: string; value: keyof Issue; className?: string }[] = [
         {
@@ -43,14 +43,24 @@ const IssuesPage = async ({ searchParams }: Props) => {
 
     const validStatus = Object.values(Status);
     const validStatusQuery = validStatus.includes(status) ? status : undefined;
+    const where = { status: validStatusQuery };
 
     const validOrder = columns.map((column) => column.value);
     const validOrderQuery = validOrder.includes(orderBy) ? orderBy : undefined;
 
+    const pageSize = 10;
+    const issueCount = await prisma.issue.count({ where });
+    const totalPages = Math.ceil(issueCount / pageSize);
+    const parsedPage = parseInt(page);
+    const validPage =
+        isNaN(parsedPage) || parsedPage < 1 ? 1 : Math.min(parsedPage, totalPages);
+
     const issues = await prisma.issue.findMany({
-        where: { status: validStatusQuery },
+        where,
         orderBy: validOrderQuery ? { [orderBy]: orderDirection } : undefined,
         include: { assignedToUser: true },
+        skip: (validPage - 1) * pageSize,
+        take: pageSize,
     });
 
     const buildQuery = (orderBy: string, orderDirection: "asc" | "desc") => {
@@ -115,6 +125,13 @@ const IssuesPage = async ({ searchParams }: Props) => {
                     ))}
                 </Table.Body>
             </Table.Root>
+            <Flex justify="center" mt="3">
+                <Pagination
+                    pageSize={pageSize}
+                    itemCount={issueCount}
+                    currentPage={validPage}
+                />
+            </Flex>
         </div>
     );
 };
