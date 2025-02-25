@@ -7,10 +7,15 @@ import AssigneeSelect from "./AssigneeSelect";
 import DeleteIssueButton from "./DeleteIssueButton";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
+import { cache } from "react";
 
 interface Props {
     params: Promise<{ id: string }>;
 }
+
+const fetchUser = cache((issueId: number) =>
+    prisma.issue.findUnique({ where: { id: issueId } })
+);
 
 const IssueDetailPage = async ({ params }: Props) => {
     const session = await getServerSession(authOptions);
@@ -20,9 +25,7 @@ const IssueDetailPage = async ({ params }: Props) => {
 
     if (isNaN(id)) notFound();
 
-    const issue = await prisma.issue.findUnique({
-        where: { id },
-    });
+    const issue = await fetchUser(id);
 
     if (!issue) notFound();
 
@@ -46,7 +49,7 @@ export async function generateMetadata({ params }: Props) {
     const idString = (await params).id;
     const id = parseInt(idString);
 
-    const issue = await prisma.issue.findUnique({ where: { id } });
+    const issue = await fetchUser(id);
 
     return {
         title: "Issue Tracker - " + issue?.title,
