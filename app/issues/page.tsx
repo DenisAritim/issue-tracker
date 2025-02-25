@@ -6,6 +6,7 @@ import { RxArrowDown, RxArrowUp } from "react-icons/rx";
 import { IssueStatusBadge, Link } from "../components";
 import Pagination from "../components/Pagination";
 import IssueToolbar from "./IssueToolbar";
+import { Metadata } from "next";
 
 interface Props {
     searchParams: Promise<{
@@ -138,3 +139,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
 };
 
 export default IssuesPage;
+export const metadata: Metadata = {
+    title: "Issue Tracker - Issue List",
+    description: "View all project issues",
+};
