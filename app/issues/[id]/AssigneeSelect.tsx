@@ -44,7 +44,10 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
                                     size="1"
                                     radius="full"
                                     src=""
-                                    fallback={<RxCircleBackslash color="red" />}
+                                    className="flex items-center justify-center"
+                                    fallback={
+                                        <RxCircleBackslash color="red" size="100%" />
+                                    }
                                 />
                                 Unassigned
                             </Flex>
