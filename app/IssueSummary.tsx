@@ -20,21 +20,24 @@ const IssueSummary = ({ open, inProgress, closed }: Props) => {
     ];
 
     return (
-        <Flex gap="2">
+        <Flex gap="4" justify="center">
             {containers.map((container) => (
-                <Card key={container.label}>
-                    <Flex direction="column" gap="2" align="center">
-                        <NextLink
-                            href={`/issues?status=${container.status}`}
-                            className="text-sm font-medium"
-                        >
-                            {container.label}
-                        </NextLink>
-                        <Text size="5" className="font-bold">
-                            {container.value}
-                        </Text>
-                    </Flex>
-                </Card>
+                <NextLink
+                    key={container.label}
+                    href={`/issues?status=${container.status}`}
+                    passHref
+                >
+                    <Card className="hover:bg-[var(--accent-9)] transition  cursor-pointer">
+                        <Flex direction="column" gap="2" align="center">
+                            <Text className="text-sm font-medium text-center">
+                                {container.label}
+                            </Text>
+                            <Text size="5" className="font-bold">
+                                {container.value}
+                            </Text>
+                        </Flex>
+                    </Card>
+                </NextLink>
             ))}
         </Flex>
     );

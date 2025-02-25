@@ -1,8 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { Avatar, Card, Flex, Heading, Table } from "@radix-ui/themes";
-import { IssueStatusBadge } from "./components";
 import NextLink from "next/link";
-import { RxCircleBackslash, RxPerson } from "react-icons/rx";
+import { RxPerson } from "react-icons/rx";
+import { IssueStatusBadge } from "./components";
 
 const LatestIssues = async () => {
     const issues = await prisma.issue.findMany({
@@ -12,7 +12,7 @@ const LatestIssues = async () => {
     });
 
     return (
-        <Card className="w-1/2">
+        <Card>
             <Heading size="4" m="3">
                 Latest Issues
             </Heading>
@@ -28,26 +28,13 @@ const LatestIssues = async () => {
                                         </NextLink>
                                         <IssueStatusBadge status={issue.status} />
                                     </Flex>
-                                    {issue.assignedToUser ? (
+                                    {issue.assignedToUser && (
                                         <Avatar
                                             radius="full"
                                             size="2"
                                             src={issue.assignedToUser.image!}
                                             fallback={<RxPerson />}
                                             referrerPolicy="no-referrer"
-                                        />
-                                    ) : (
-                                        <Avatar
-                                            radius="full"
-                                            size="2"
-                                            src=""
-                                            className="flex items-center justify-center"
-                                            fallback={
-                                                <RxCircleBackslash
-                                                    color="red"
-                                                    size="100%"
-                                                />
-                                            }
                                         />
                                     )}
                                 </Flex>

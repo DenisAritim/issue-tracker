@@ -9,7 +9,7 @@ import { RxPerson } from "react-icons/rx";
 
 const Navbar = () => {
     return (
-        <nav className="px-5 border-b shadow-sm mb-2 py-4">
+        <nav className="px-5 border-b shadow-sm mb-2 lg:mb-5 py-4">
             <Container>
                 <Flex justify="between">
                     <Flex align="center">
