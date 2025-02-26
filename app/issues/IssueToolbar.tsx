@@ -1,11 +1,11 @@
 import { Button, Flex } from "@radix-ui/themes";
 import Link from "next/link";
-import IssueStatusFilter from "./IssueStatusFilter";
+import StatusFilterWrap from "./StatusFilterWrap";
 
 const IssueToolbar = () => {
     return (
         <Flex justify="between">
-            <IssueStatusFilter />
+            <StatusFilterWrap />
             <Button>
                 <Link href={"/issues/new"}>New Issue</Link>
             </Button>
