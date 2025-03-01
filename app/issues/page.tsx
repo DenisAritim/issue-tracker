@@ -58,7 +58,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
 
     const issues = await prisma.issue.findMany({
         where,
-        orderBy: validOrderQuery ? { [orderBy]: orderDirection } : undefined,
+        orderBy: validOrderQuery ? { [orderBy]: orderDirection } : { createdAt: "desc" },
         include: { assignedToUser: true },
         skip: (validPage - 1) * pageSize,
         take: pageSize,
