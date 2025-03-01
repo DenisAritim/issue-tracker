@@ -48,3 +48,8 @@ roadmap.md
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+# SQLite 
+
+/prisma/dev.db
+*.db
