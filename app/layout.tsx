@@ -19,6 +19,12 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className={inter.variable}>
+            <head>
+                <meta
+                    name="google-site-verification"
+                    content="rwX1Qrd0op33GUncZyN-dBxM41A0BxmO7XryoMuViEY"
+                />
+            </head>
             <body className="antialiased">
                 <QueryClientProvider>
                     <AuthProvider>
