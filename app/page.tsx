@@ -1,15 +1,26 @@
 import { prisma } from "@/lib/prisma";
-import IssueChart from "./IssueChart";
 import { Flex, Grid } from "@radix-ui/themes";
+import { Metadata } from "next";
+import { unstable_cache } from "next/cache";
+import IssueChart from "./IssueChart";
 import IssueSummary from "./IssueSummary";
 import LatestIssues from "./LatestIssues";
-import { Metadata } from "next";
+
+export const revalidate = 60;
+
+const getStatus = unstable_cache(
+    async () => {
+        const open = await prisma.issue.count({ where: { status: "OPEN" } });
+        const inProgress = await prisma.issue.count({ where: { status: "IN_PROGRESS" } });
+        const closed = await prisma.issue.count({ where: { status: "CLOSED" } });
+        return { open, inProgress, closed };
+    },
+    ["statuses"],
+    { revalidate: 60, tags: ["statuses"] }
+);
 
 const page = async () => {
-    const open = await prisma.issue.count({ where: { status: "OPEN" } });
-    const inProgress = await prisma.issue.count({ where: { status: "IN_PROGRESS" } });
-    const closed = await prisma.issue.count({ where: { status: "CLOSED" } });
-
+    const { open, inProgress, closed } = await getStatus();
     return (
         <Grid columns={{ initial: "1", md: "2" }} gap="5">
             <Flex direction="column" gap="5">
