@@ -1,5 +1,13 @@
 "use client";
-import { Avatar, Box, Container, DropdownMenu, Flex, Spinner } from "@radix-ui/themes";
+import {
+    Avatar,
+    Box,
+    Container,
+    DropdownMenu,
+    Flex,
+    Spinner,
+    Tooltip,
+} from "@radix-ui/themes";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -70,14 +78,16 @@ const AuthStatus = () => {
             <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
                     <div className="flex items-center justify-center">
-                        <Avatar
-                            src={session!.user!.image!}
-                            fallback={<RxPerson />}
-                            size="2"
-                            radius="full"
-                            className="cursor-pointer"
-                            referrerPolicy="no-referrer"
-                        />
+                        <Tooltip content="Manage user">
+                            <Avatar
+                                src={session!.user!.image!}
+                                fallback={<RxPerson />}
+                                size="2"
+                                radius="full"
+                                className="cursor-pointer"
+                                referrerPolicy="no-referrer"
+                            />
+                        </Tooltip>
                     </div>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>

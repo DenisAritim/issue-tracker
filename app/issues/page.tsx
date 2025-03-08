@@ -82,7 +82,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
                         {columns.map((column) => (
                             <Table.ColumnHeaderCell
                                 key={column.value}
-                                className={column.className}
+                                className={column.className + " items-center"}
                             >
                                 <NextLink
                                     href={`/issues?${buildQuery(
@@ -99,6 +99,9 @@ const IssuesPage = async ({ searchParams }: Props) => {
                                     orderDirection === "desc" && (
                                         <RxArrowDown className="inline" />
                                     )}
+                                {!orderBy && column.value === "createdAt" && (
+                                    <RxArrowDown className="inline" />
+                                )}
                             </Table.ColumnHeaderCell>
                         ))}
                     </Table.Row>

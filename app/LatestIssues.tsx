@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { Avatar, Card, Flex, Heading, Table } from "@radix-ui/themes";
+import { Avatar, Card, Flex, Heading, Table, Tooltip } from "@radix-ui/themes";
 import NextLink from "next/link";
 import { RxPerson } from "react-icons/rx";
 import { IssueStatusBadge } from "./components";
@@ -23,19 +23,27 @@ const LatestIssues = async () => {
                             <Table.Cell>
                                 <Flex justify="between" align="center">
                                     <Flex direction="column" align="start" gap="1">
-                                        <NextLink href={`/issues/${issue.id}`}>
-                                            {issue.title}
-                                        </NextLink>
+                                        <Tooltip content={"Go to issue"}>
+                                            <NextLink href={`/issues/${issue.id}`}>
+                                                {issue.title}
+                                            </NextLink>
+                                        </Tooltip>
                                         <IssueStatusBadge status={issue.status} />
                                     </Flex>
                                     {issue.assignedToUser && (
-                                        <Avatar
-                                            radius="full"
-                                            size="2"
-                                            src={issue.assignedToUser.image!}
-                                            fallback={<RxPerson />}
-                                            referrerPolicy="no-referrer"
-                                        />
+                                        <Tooltip
+                                            content={
+                                                "Assigned to " + issue.assignedToUser.name
+                                            }
+                                        >
+                                            <Avatar
+                                                radius="full"
+                                                size="2"
+                                                src={issue.assignedToUser.image!}
+                                                fallback={<RxPerson />}
+                                                referrerPolicy="no-referrer"
+                                            />
+                                        </Tooltip>
                                     )}
                                 </Flex>
                             </Table.Cell>

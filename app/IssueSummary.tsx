@@ -1,5 +1,5 @@
 import { Status } from "@prisma/client";
-import { Card, Flex, Text } from "@radix-ui/themes";
+import { Card, Flex, Text, Tooltip } from "@radix-ui/themes";
 import NextLink from "next/link";
 
 interface Props {
@@ -27,16 +27,18 @@ const IssueSummary = ({ open, inProgress, closed }: Props) => {
                     href={`/issues?status=${container.status}`}
                     passHref
                 >
-                    <Card className="hover:bg-[var(--accent-9)] transition  cursor-pointer">
-                        <Flex direction="column" gap="2" align="center">
-                            <Text className="text-sm font-medium text-center">
-                                {container.label}
-                            </Text>
-                            <Text size="5" className="font-bold">
-                                {container.value}
-                            </Text>
-                        </Flex>
-                    </Card>
+                    <Tooltip content={"Go to " + container.label.toLowerCase()}>
+                        <Card className="hover:bg-[var(--accent-9)] transition  cursor-pointer">
+                            <Flex direction="column" gap="2" align="center">
+                                <Text className="text-sm font-medium text-center">
+                                    {container.label}
+                                </Text>
+                                <Text size="5" className="font-bold">
+                                    {container.value}
+                                </Text>
+                            </Flex>
+                        </Card>
+                    </Tooltip>
                 </NextLink>
             ))}
         </Flex>
