@@ -5,6 +5,7 @@ import AuthProvider from "./auth/Provider";
 import "./globals.css";
 import Navbar from "./Navbar";
 import QueryClientProvider from "./QueryClientProvider";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -40,6 +41,7 @@ export default function RootLayout({
                         </Theme>
                     </AuthProvider>
                 </QueryClientProvider>
+                <Analytics />
             </body>
         </html>
     );
