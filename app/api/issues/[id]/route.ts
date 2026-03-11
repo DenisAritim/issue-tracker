@@ -2,6 +2,7 @@ import authOptions from "@/app/auth/authOptions";
 import { patchIssueSchema } from "@/app/validationSchemas";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
@@ -47,6 +48,10 @@ export async function PATCH(
         },
     });
 
+    revalidatePath("/");
+    revalidatePath("/issues");
+    revalidatePath(`/issues/${id}`);
+
     return NextResponse.json(updatedIssue);
 }
 
@@ -69,6 +74,10 @@ export async function DELETE(
     if (!issue) return NextResponse.json({ error: "Invalid issue" }, { status: 404 });
 
     await prisma.issue.delete({ where: { id } });
+
+    revalidatePath("/");
+    revalidatePath("/issues");
+    revalidatePath(`/issues/${id}`);
 
     return NextResponse.json({});
 }

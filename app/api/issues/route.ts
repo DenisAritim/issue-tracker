@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { issueSchema } from "../../validationSchemas";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions);
@@ -17,6 +18,9 @@ export async function POST(request: NextRequest) {
     const newIssue = await prisma.issue.create({
         data: { title: body.title, description: body.description },
     });
+
+    revalidatePath("/");
+    revalidatePath("/issues");
 
     return NextResponse.json(newIssue, { status: 200 });
 }
